@@ -1,0 +1,38 @@
+{
+  "name": "texture-packer",
+  "version": "1.0.0",
+  "description": "A cli texture packer for your video games",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thetinyspark/texture-packer.git"
+  },
+  "keywords": [
+    "texture",
+    "packer",
+    "video",
+    "games",
+    "spritesheet"
+  ],
+  "author": "The Tiny Spark",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thetinyspark/texture-packer/issues"
+  },
+  "homepage": "https://github.com/thetinyspark/texture-packer#readme",
+  "dependencies": {
+    "canvas": "^2.5.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.1"
+  },
+  "bin": {
+    "texture-packer": "./dist/index.js"
+  }
+}
