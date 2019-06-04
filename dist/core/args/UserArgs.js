@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var UserArgs = /** @class */ (function () {
-    function UserArgs() {
+class UserArgs {
+    constructor() {
         this.size = 1;
         this.directory = "./";
-        var args = process.argv;
-        var current = "";
-        var i = 0;
+        let args = process.argv;
+        let current = "";
+        let i = 0;
         for (; i < args.length; i++) {
             current = args[i];
             if (current == "--size" && i + 1 < args.length) {
@@ -17,13 +17,12 @@ var UserArgs = /** @class */ (function () {
             }
         }
     }
-    UserArgs.prototype.getNextPowerOf2 = function (value) {
-        var num = 1;
+    getNextPowerOf2(value) {
+        let num = 1;
         while (num < value) {
             num *= 2;
         }
         return num;
-    };
-    return UserArgs;
-}());
+    }
+}
 exports.UserArgs = UserArgs;
