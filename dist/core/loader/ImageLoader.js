@@ -10,7 +10,7 @@ class ImageLoader {
         while (files.length > 0) {
             let filename = files.shift();
             let ext = filename.substr(filename.lastIndexOf("."));
-            let extensions = [".png", ".gif", ".jpeg", ".jpg", ".bmp", ".svg"];
+            let extensions = [".png", ".jpeg", ".jpg"];
             if (extensions.indexOf(ext) == -1) {
                 continue;
             }

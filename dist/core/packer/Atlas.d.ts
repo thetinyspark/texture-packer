@@ -6,5 +6,6 @@ export declare class Atlas {
     constructor(width: number, height: number);
     splitZone(zone: Zone, width: number, height: number): void;
     getZone(width?: number, height?: number): Zone;
+    removeEmptyZones(): void;
     private sortZones;
 }
