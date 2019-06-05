@@ -66,7 +66,7 @@ export class Atlas{
     public getZone(width: number = 0, height: number = 0): Zone {
 
         // we sort the zones 
-        this.zones.sort(this.sortZones);
+        this.zones = this.zones.sort(this.sortZones);
         let i: number = 0;
 
         // then we loop other the zones array in order to grab the most accruate one
@@ -80,12 +80,20 @@ export class Atlas{
 
     }
 
+    public removeEmptyZones():void{
+        let i:number = this.zones.length;
+        while( --i > -1 ){
+            if( this.zones[i].img == null ){
+                this.zones.splice(i, 1);
+            }
+        }
+    }
 
     private sortZones(a: Zone, b: Zone): number {
         let area1: number = a.width * a.height;
         let area2: number = b.width * b.height;
 
-        return (area1 > area2) ? -1 : 1;
+        return (area1 < area2) ? -1 : 1;
     }
 
 }
