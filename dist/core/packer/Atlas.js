@@ -47,7 +47,7 @@ class Atlas {
     }
     getZone(width = 0, height = 0) {
         // we sort the zones 
-        this.zones.sort(this.sortZones);
+        this.zones = this.zones.sort(this.sortZones);
         let i = 0;
         // then we loop other the zones array in order to grab the most accruate one
         for (; i < this.zones.length; i++) {
@@ -57,10 +57,18 @@ class Atlas {
         }
         return null;
     }
+    removeEmptyZones() {
+        let i = this.zones.length;
+        while (--i > -1) {
+            if (this.zones[i].img == null) {
+                this.zones.splice(i, 1);
+            }
+        }
+    }
     sortZones(a, b) {
         let area1 = a.width * a.height;
         let area2 = b.width * b.height;
-        return (area1 > area2) ? -1 : 1;
+        return (area1 < area2) ? -1 : 1;
     }
 }
 exports.Atlas = Atlas;

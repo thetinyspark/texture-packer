@@ -1,7 +1,9 @@
 import { Image } from "canvas/types";
 
 export class Zone{
-    constructor(){}
+
+    constructor(){
+    }
 
     public width:number = 0;
     public height:number = 0;
