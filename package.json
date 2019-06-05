@@ -1,5 +1,5 @@
 {
-  "name": "texture-packer",
+  "name": "@thetinyspark/texture-packer",
   "version": "1.0.0",
   "description": "A cli texture packer for your video games",
   "main": "dist/index.js",
