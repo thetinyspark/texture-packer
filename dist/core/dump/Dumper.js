@@ -1,13 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs");
-class Dumper {
-    atlasesToJSON(atlases) {
-        for (let i = 0; i < atlases.length; i++) {
-            let data = JSON.stringify(atlases[i], (key, value) => {
+exports.Dumper = void 0;
+var fs = require("fs");
+var Dumper = /** @class */ (function () {
+    function Dumper() {
+    }
+    Dumper.prototype.atlasesToJSON = function (atlases) {
+        for (var i = 0; i < atlases.length; i++) {
+            var data = JSON.stringify(atlases[i], function (key, value) {
                 if (key == "img") {
-                    let img = value;
-                    let filename = img.src.toString();
+                    var img = value;
+                    var filename = img.src.toString();
                     filename = filename.substr(filename.lastIndexOf("/") + 1);
                     filename = filename.substr(filename.lastIndexOf("\\") + 1);
                     return filename;
@@ -16,6 +19,7 @@ class Dumper {
             });
             fs.writeFileSync("atlas_" + i + ".json", data);
         }
-    }
-}
+    };
+    return Dumper;
+}());
 exports.Dumper = Dumper;

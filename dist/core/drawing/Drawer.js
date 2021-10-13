@@ -1,20 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs");
-const canvas_1 = require("canvas");
-class Drawer {
-    constructor() { }
-    draw(atlases, outputDir = ".") {
-        let i = 0;
+exports.Drawer = void 0;
+var fs = require("fs");
+var canvas_1 = require("canvas");
+var Drawer = /** @class */ (function () {
+    function Drawer() {
+    }
+    Drawer.prototype.draw = function (atlases, outputDir) {
+        if (outputDir === void 0) { outputDir = "."; }
+        var i = 0;
         for (; i < atlases.length; i++) {
             fs.writeFileSync(outputDir + "/atlas_" + i + ".png", this.drawAtlas(atlases[i]).toBuffer());
         }
-    }
-    drawAtlas(atlas) {
-        let canvas = canvas_1.createCanvas(atlas.width, atlas.height);
-        let ctx = canvas.getContext("2d");
-        let zone = null;
-        let i = 0;
+    };
+    Drawer.prototype.drawAtlas = function (atlas) {
+        var canvas = (0, canvas_1.createCanvas)(atlas.width, atlas.height);
+        var ctx = canvas.getContext("2d");
+        var zone = null;
+        var i = 0;
         ctx.save();
         for (; i < atlas.zones.length; i++) {
             zone = atlas.zones[i];
@@ -24,6 +27,7 @@ class Drawer {
         }
         ctx.restore();
         return canvas;
-    }
-}
+    };
+    return Drawer;
+}());
 exports.Drawer = Drawer;

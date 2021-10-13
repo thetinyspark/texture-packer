@@ -1,31 +1,35 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Atlas_1 = require("./Atlas");
-class Packer {
-    constructor() { }
-    sortImages(a, b) {
-        let area1 = a.naturalWidth * a.naturalHeight;
-        let area2 = b.naturalWidth * b.naturalHeight;
-        return (area1 > area2) ? -1 : 1;
+exports.Packer = void 0;
+var Atlas_1 = require("./Atlas");
+var Packer = /** @class */ (function () {
+    function Packer() {
     }
-    trim(images, width, height) {
-        let results = [];
-        let i = 0;
+    Packer.prototype.sortImages = function (a, b) {
+        var area1 = a.naturalWidth * a.naturalHeight;
+        var area2 = b.naturalWidth * b.naturalHeight;
+        return (area1 > area2) ? -1 : 1;
+    };
+    Packer.prototype.trim = function (images, width, height) {
+        var results = [];
+        var i = 0;
         for (; i < images.length; i++) {
             if (images[i].naturalWidth > width || images[i].naturalHeight > height)
                 continue;
             results.push(images[i]);
         }
         return results;
-    }
-    pack(images, width = 0, height = 0) {
-        let results = [];
-        let currentZone = null;
-        let currentImg = null;
-        let currentAtlas = null;
+    };
+    Packer.prototype.pack = function (images, width, height) {
+        if (width === void 0) { width = 0; }
+        if (height === void 0) { height = 0; }
+        var results = [];
+        var currentZone = null;
+        var currentImg = null;
+        var currentAtlas = null;
         // if the image is too big, then skip it
         images = this.trim(images, width, height);
-        let i = 0;
+        var i = 0;
         //while there's images into the images array
         while (images.length > 0) {
             // we sort the images
@@ -54,6 +58,7 @@ class Packer {
             }
         }
         return results;
-    }
-}
+    };
+    return Packer;
+}());
 exports.Packer = Packer;

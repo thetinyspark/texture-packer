@@ -1,10 +1,19 @@
 {
+  "include": [
+    "lib"
+  ],
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "declaration": true,
     "outDir": "./dist",
-    "strictNullChecks": false,
-    "strict": true
+    "strict": false,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "@types/jasmine",
+      "@types/node"
+    ],
   }
 }
