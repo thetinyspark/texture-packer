@@ -1,4 +1,4 @@
-import { Model } from "@thetinyspark/coffe-maker";
-export default class AppModel extends Model {
+import { StoreModel } from "@thetinyspark/coffe-maker";
+export default class AppModel extends StoreModel {
     constructor();
 }

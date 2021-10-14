@@ -24,5 +24,5 @@ var AppModel = /** @class */ (function (_super) {
         return _this;
     }
     return AppModel;
-}(coffe_maker_1.Model));
+}(coffe_maker_1.StoreModel));
 exports.default = AppModel;

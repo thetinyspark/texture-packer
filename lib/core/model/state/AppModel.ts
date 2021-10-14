@@ -1,6 +1,6 @@
-import { Model } from "@thetinyspark/coffe-maker";
+import { StoreModel } from "@thetinyspark/coffe-maker";
 
-export default class AppModel extends Model{
+export default class AppModel extends StoreModel{
     constructor(){
         super();
         this.setState({});

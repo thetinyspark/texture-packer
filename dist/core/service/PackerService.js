@@ -10,16 +10,6 @@ var PackerService = /** @class */ (function () {
         var area2 = b.naturalWidth * b.naturalHeight;
         return (area1 > area2) ? -1 : 1;
     };
-    PackerService.prototype.removeTooBigImages = function (images, width, height) {
-        var results = [];
-        var i = 0;
-        for (; i < images.length; i++) {
-            if (images[i].naturalWidth > width || images[i].naturalHeight > height)
-                continue;
-            results.push(images[i]);
-        }
-        return results;
-    };
     PackerService.prototype.pack = function (images, width, height) {
         if (width === void 0) { width = 0; }
         if (height === void 0) { height = 0; }
@@ -27,8 +17,6 @@ var PackerService = /** @class */ (function () {
         var currentZone = null;
         var currentImg = null;
         var currentAtlas = null;
-        // if the image is too big, then skip it
-        images = this.removeTooBigImages(images, width, height);
         var i = 0;
         //while there's images into the images array
         while (images.length > 0) {

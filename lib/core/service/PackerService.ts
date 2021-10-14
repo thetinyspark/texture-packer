@@ -8,24 +8,10 @@ export class PackerService implements IPackerService {
 
     constructor() { }
 
-    public sortImagesByAreaAsc(a: Image, b: Image): number {
+    private sortImagesByAreaAsc(a: Image, b: Image): number {
         let area1: number = a.naturalWidth * a.naturalHeight;
         let area2: number = b.naturalWidth * b.naturalHeight;
         return (area1 > area2) ? -1 : 1;
-    }
-
-    public removeTooBigImages(images: Image[], width: number, height: number): Image[] {
-        let results: Image[] = [];
-        let i: number = 0;
-
-        for (; i < images.length; i++) {
-            if (images[i].naturalWidth > width || images[i].naturalHeight > height)
-                continue;
-
-            results.push(images[i]);
-        }
-
-        return results;
     }
 
     public pack(images: Image[], width: number = 0, height: number = 0): Atlas[] {
@@ -34,9 +20,6 @@ export class PackerService implements IPackerService {
         let currentZone: Zone = null;
         let currentImg: Image = null;
         let currentAtlas: Atlas = null;
-
-        // if the image is too big, then skip it
-        images = this.removeTooBigImages(images, width, height);
         
         let i: number = 0;
 

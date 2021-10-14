@@ -8,4 +8,5 @@ export declare class Atlas {
     getZone(width?: number, height?: number): Zone;
     removeEmptyZones(): void;
     private sortZones;
+    static toJSON(atlas: Atlas): string;
 }

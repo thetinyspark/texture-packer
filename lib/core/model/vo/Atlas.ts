@@ -22,7 +22,6 @@ export class Atlas{
         ];
     }
 
-
     public splitZone(zone: Zone, width: number, height: number): void {
 
         let zoneA: Zone = { x: 0, y: 0, width: 0, height: 0, img: null };
@@ -94,6 +93,24 @@ export class Atlas{
         let area2: number = b.width * b.height;
 
         return (area1 < area2) ? -1 : 1;
+    }
+
+    public static toJSON(atlas:Atlas):string{
+        return JSON.stringify( 
+            atlas, 
+            (key:string, value:any) => { 
+                
+                if( key == "img"){
+                    let img:Image = value as Image;
+                    let filename:string = img.src.toString();
+                    filename = filename.substr(filename.lastIndexOf("/") + 1 );
+                    filename = filename.substr(filename.lastIndexOf("\\") + 1 );
+                    return filename;
+                }
+
+                return value;
+            }
+        );
     }
 
 }

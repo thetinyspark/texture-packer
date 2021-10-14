@@ -24,6 +24,13 @@ var AppProxy = /** @class */ (function (_super) {
         _this._model = new AppModel_1.default();
         return _this;
     }
+    AppProxy.prototype.setAtlases = function (atlases) {
+        this._model.setState({ atlases: atlases });
+    };
+    AppProxy.prototype.getAtlases = function () {
+        var state = this._model.getState();
+        return state.atlases;
+    };
     AppProxy.prototype.getTextures = function () {
         var state = this._model.getState();
         return state.textures;

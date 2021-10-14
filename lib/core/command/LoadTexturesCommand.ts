@@ -1,7 +1,7 @@
 import { ICommand } from "@thetinyspark/coffe-maker";
 import { INotification } from "@thetinyspark/tiny-observer";
 import { Image, loadImage } from "canvas";
-import { APPLICATION_PROXY_TOKEN, FILE_SERVICE_TOKEN, PACK_IMAGES } from "../config/app.constants";
+import { APPLICATION_PROXY_TOKEN, FILE_SERVICE_TOKEN, REMOVE_BIG_IMAGES } from "../config/app.constants";
 import { facade } from "../config/facade";
 import { container } from "../config/ioc";
 import IAppProxy from "../model/proxy/IAppProxy";
@@ -25,7 +25,7 @@ export default class LoadTextureCommand implements ICommand{
     private async _loadAndStore(paths:string[], proxy:IAppProxy):Promise<void>{
         const images:Image[] = await this._load(paths);
         proxy.setTextures(images);
-        facade.sendNotification(PACK_IMAGES);
+        facade.sendNotification(REMOVE_BIG_IMAGES);
     }
 
     private _load(paths:string[]):Promise<Image[]> {

@@ -73,6 +73,18 @@ var Atlas = /** @class */ (function () {
         var area2 = b.width * b.height;
         return (area1 < area2) ? -1 : 1;
     };
+    Atlas.toJSON = function (atlas) {
+        return JSON.stringify(atlas, function (key, value) {
+            if (key == "img") {
+                var img = value;
+                var filename = img.src.toString();
+                filename = filename.substr(filename.lastIndexOf("/") + 1);
+                filename = filename.substr(filename.lastIndexOf("\\") + 1);
+                return filename;
+            }
+            return value;
+        });
+    };
     return Atlas;
 }());
 exports.Atlas = Atlas;

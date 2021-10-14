@@ -63,7 +63,7 @@ var LoadTextureCommand = /** @class */ (function () {
                     case 1:
                         images = _a.sent();
                         proxy.setTextures(images);
-                        facade_1.facade.sendNotification(app_constants_1.PACK_IMAGES);
+                        facade_1.facade.sendNotification(app_constants_1.REMOVE_BIG_IMAGES);
                         return [2 /*return*/];
                 }
             });

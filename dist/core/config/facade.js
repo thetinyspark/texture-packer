@@ -9,3 +9,5 @@ exports.facade.registerCommand(app_constants_1.START_APPLICATION, ioc_1.containe
 exports.facade.registerCommand(app_constants_1.PARSE_USER_ARGS, ioc_1.container.get(app_constants_1.PARSE_USER_ARGS));
 exports.facade.registerCommand(app_constants_1.LOAD_TEXTURES, ioc_1.container.get(app_constants_1.LOAD_TEXTURES));
 exports.facade.registerCommand(app_constants_1.PACK_IMAGES, ioc_1.container.get(app_constants_1.PACK_IMAGES));
+exports.facade.registerCommand(app_constants_1.REMOVE_BIG_IMAGES, ioc_1.container.get(app_constants_1.REMOVE_BIG_IMAGES));
+exports.facade.registerCommand(app_constants_1.EXPORT_COMMAND, ioc_1.container.get(app_constants_1.EXPORT_COMMAND));
