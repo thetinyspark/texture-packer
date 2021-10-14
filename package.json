@@ -8,6 +8,7 @@
     "/dist"
   ],
   "scripts": {
+    "pub":"npm run build && npm publish",
     "start": "npm run build && npm run texture:packer",
     "build": "tsc && npm run code:packer",
     "texture:packer": "node dist/main.js --dir \"./assets/\" --output ./tmp --size 512",
