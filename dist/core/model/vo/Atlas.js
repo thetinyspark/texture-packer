@@ -74,16 +74,25 @@ var Atlas = /** @class */ (function () {
         return (area1 < area2) ? -1 : 1;
     };
     Atlas.toJSON = function (atlas) {
-        return JSON.stringify(atlas, function (key, value) {
-            if (key == "img") {
-                var img = value;
+        var output = {
+            width: atlas.width,
+            height: atlas.height,
+            zones: atlas.zones.map(function (zone) {
+                var img = zone.img;
                 var filename = img.src.toString();
                 filename = filename.substr(filename.lastIndexOf("/") + 1);
                 filename = filename.substr(filename.lastIndexOf("\\") + 1);
-                return filename;
-            }
-            return value;
-        });
+                return {
+                    x: zone.x,
+                    y: zone.y,
+                    width: zone.width,
+                    height: zone.height,
+                    id: filename.substr(0, filename.lastIndexOf(".")),
+                    img: filename
+                };
+            })
+        };
+        return JSON.stringify(output);
     };
     return Atlas;
 }());

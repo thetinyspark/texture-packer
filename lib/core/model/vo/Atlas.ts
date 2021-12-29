@@ -96,21 +96,27 @@ export class Atlas{
     }
 
     public static toJSON(atlas:Atlas):string{
-        return JSON.stringify( 
-            atlas, 
-            (key:string, value:any) => { 
-                
-                if( key == "img"){
-                    let img:Image = value as Image;
+        const output = {
+            width: atlas.width,
+            height: atlas.height,
+            zones: atlas.zones.map( 
+                (zone:Zone)=>{
+                    let img:Image = zone.img;
                     let filename:string = img.src.toString();
                     filename = filename.substr(filename.lastIndexOf("/") + 1 );
                     filename = filename.substr(filename.lastIndexOf("\\") + 1 );
-                    return filename;
+                    return {
+                        x: zone.x,
+                        y: zone.y,
+                        width: zone.width,
+                        height: zone.height,
+                        id: filename.substr(0,filename.lastIndexOf(".")), 
+                        img: filename
+                    }
                 }
-
-                return value;
-            }
-        );
+            )
+        }
+        return JSON.stringify(output);
     }
 
 }
