@@ -4,7 +4,7 @@ export declare class Atlas {
     width: number;
     height: number;
     constructor(width: number, height: number);
-    splitZone(zone: Zone, width: number, height: number): void;
+    splitZone(zone: Zone): void;
     getZone(width?: number, height?: number): Zone;
     removeEmptyZones(): void;
     private sortZones;

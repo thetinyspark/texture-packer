@@ -11,7 +11,7 @@
     "pub": "npm run build && npm publish",
     "start": "npm run build && npm run texture:packer",
     "build": "tsc && npm run code:packer",
-    "texture:packer": "node dist/main.js --dir \"./assets/\" --output ./tmp --size 512",
+    "texture:packer": "node dist/main.js --dir \"./assets/\" --output ./tmp --size 1024 --optimize 0 --debug 0",
     "code:packer": "npx webpack --config webpack.config.js",
     "test": "jasmine-ts \"test/**/*.spec.ts\""
   },
@@ -36,7 +36,7 @@
     "@thetinyspark/coffe-maker": "^1.3.3",
     "@thetinyspark/moocaccino-barista": "^1.9.3",
     "@types/commander": "^2.12.2",
-    "canvas": "^2.8.0",
+    "canvas": "^2.9.3",
     "commander": "^8.2.0",
     "update": "^0.7.4"
   },

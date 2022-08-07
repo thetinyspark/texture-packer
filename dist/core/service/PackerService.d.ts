@@ -4,5 +4,5 @@ import IPackerService from "./IPackerService";
 export declare class PackerService implements IPackerService {
     constructor();
     private sortImagesByAreaAsc;
-    pack(images: Image[], width?: number, height?: number): Atlas[];
+    pack(images: Image[], width?: number, height?: number, optimize?: boolean): Atlas[];
 }

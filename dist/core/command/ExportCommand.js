@@ -13,12 +13,14 @@ var ExportCommand = /** @class */ (function () {
         var atlases = proxy.getAtlases();
         var service = ioc_1.container.resolve(app_constants_1.FILE_SERVICE_TOKEN);
         var drawer = ioc_1.container.resolve(app_constants_1.DRAWING_SERVICE);
+        var service2 = ioc_1.container.resolve(app_constants_1.USER_ARGS_SERVICE);
+        var debug = parseInt(service2.getUserArg('debug')) === 1;
         atlases.forEach(function (currentAtlas, index) {
             var name = 'atlas_' + index;
             var jsonName = name + '.json';
             var pngName = name + '.png';
             service.writeJSON(Atlas_1.Atlas.toJSON(currentAtlas), outputDir + '/' + jsonName);
-            service.writeImage(drawer.drawAtlas(currentAtlas), outputDir + '/' + pngName);
+            service.writeImage(drawer.drawAtlas(currentAtlas, debug), outputDir + '/' + pngName);
         });
     };
     return ExportCommand;
