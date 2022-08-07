@@ -1,5 +1,6 @@
 import { Rectangle } from "@thetinyspark/moocaccino-barista";
 import { Image } from "canvas/types";
+import { cp } from "fs";
 import { Atlas } from "../model/vo/Atlas";
 import { Zone } from "../model/vo/Zone";
 import CanvasUtils from "../utils/CanvasUtils";
@@ -24,9 +25,10 @@ export class PackerService implements IPackerService {
         let currentImg: Image   = null;
         let currentAtlas: Atlas = null;
         let bounds:Rectangle    = null;
+        let original:Image      = null;
+        const corresp           = [];
         const originals         = images;
         const cropped           = [];
-        const boundes           = [];
 
         images.forEach(
             tex => {
@@ -34,11 +36,10 @@ export class PackerService implements IPackerService {
                     const canvas = CanvasUtils.createFromImage(tex);
                     const bounds = detectEdges(canvas, 10);
                     const crop = CanvasUtils.crop(canvas, bounds);
-                    boundes.push(bounds);
-                    cropped.push(CanvasUtils.canvasToImg(crop));
-                }
-                else{
-                    boundes.push({x:0,y:0, width: tex.naturalWidth, height: tex.naturalHeight});
+                    const cropImg = CanvasUtils.canvasToImg(crop);
+                    CanvasUtils.canvasToImg(crop)
+                    cropped.push(cropImg);
+                    corresp.push({original: tex, cropped: cropImg, bounds: bounds})
                 }
             }
         ); 
@@ -63,7 +64,15 @@ export class PackerService implements IPackerService {
             for ( i = 0; i < images.length; i++) {
                 
                 currentImg = images[i];
-                bounds = boundes[i];
+                if( !optimize){
+                    bounds = {x:0,y:0, width: currentImg.naturalWidth, height: currentImg.naturalHeight}
+                    original = currentImg;
+                }
+                else{
+                    const current = corresp.find( c => c.cropped === currentImg );
+                    bounds = current.bounds;
+                    original = current.original;
+                }
 
                 // we try to find a zone which can contains our image
                 currentZone = currentAtlas.getZone(currentImg.naturalWidth, currentImg.naturalHeight);
@@ -77,11 +86,11 @@ export class PackerService implements IPackerService {
                 
                 //and create two zones from the current one
                 currentAtlas.splitZone(currentZone);
-                currentZone.originalWidth       = originals[i].naturalWidth;
-                currentZone.originalHeight      = originals[i].naturalHeight;
+                currentZone.originalWidth       = original.naturalWidth;
+                currentZone.originalHeight      = original.naturalHeight;
                 currentZone.offsetX             = bounds.x;
                 currentZone.offsetY             = bounds.y;
-                currentZone.src                 = originals[i].src.toString();
+                currentZone.src                 = original.src.toString();
             }
             
             results.push(currentAtlas);

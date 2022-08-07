@@ -11,7 +11,7 @@
     "pub": "npm run build && npm publish",
     "start": "npm run build && npm run texture:packer",
     "build": "tsc && npm run code:packer",
-    "texture:packer": "node dist/main.js --dir \"./assets/\" --output ./tmp --size 1024 --optimize 0 --debug 0",
+    "texture:packer": "node dist/main.js --dir \"./assets/\" --output ./tmp --size 1024 --optimize 1 --debug 0",
     "code:packer": "npx webpack --config webpack.config.js",
     "test": "jasmine-ts \"test/**/*.spec.ts\""
   },

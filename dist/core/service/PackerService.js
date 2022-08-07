@@ -21,19 +21,19 @@ var PackerService = /** @class */ (function () {
         var currentImg = null;
         var currentAtlas = null;
         var bounds = null;
+        var original = null;
+        var corresp = [];
         var originals = images;
         var cropped = [];
-        var boundes = [];
         images.forEach(function (tex) {
             if (optimize) {
                 var canvas = CanvasUtils_1.default.createFromImage(tex);
                 var bounds_1 = (0, detectEdges_1.default)(canvas, 10);
                 var crop = CanvasUtils_1.default.crop(canvas, bounds_1);
-                boundes.push(bounds_1);
-                cropped.push(CanvasUtils_1.default.canvasToImg(crop));
-            }
-            else {
-                boundes.push({ x: 0, y: 0, width: tex.naturalWidth, height: tex.naturalHeight });
+                var cropImg = CanvasUtils_1.default.canvasToImg(crop);
+                CanvasUtils_1.default.canvasToImg(crop);
+                cropped.push(cropImg);
+                corresp.push({ original: tex, cropped: cropImg, bounds: bounds_1 });
             }
         });
         if (optimize) {
@@ -49,7 +49,15 @@ var PackerService = /** @class */ (function () {
             // we loop other the images array
             for (i = 0; i < images.length; i++) {
                 currentImg = images[i];
-                bounds = boundes[i];
+                if (!optimize) {
+                    bounds = { x: 0, y: 0, width: currentImg.naturalWidth, height: currentImg.naturalHeight };
+                    original = currentImg;
+                }
+                else {
+                    var current = corresp.find(function (c) { return c.cropped === currentImg; });
+                    bounds = current.bounds;
+                    original = current.original;
+                }
                 // we try to find a zone which can contains our image
                 currentZone = currentAtlas.getZone(currentImg.naturalWidth, currentImg.naturalHeight);
                 // if we cant find one
@@ -59,11 +67,11 @@ var PackerService = /** @class */ (function () {
                 currentZone.img = currentImg;
                 //and create two zones from the current one
                 currentAtlas.splitZone(currentZone);
-                currentZone.originalWidth = originals[i].naturalWidth;
-                currentZone.originalHeight = originals[i].naturalHeight;
+                currentZone.originalWidth = original.naturalWidth;
+                currentZone.originalHeight = original.naturalHeight;
                 currentZone.offsetX = bounds.x;
                 currentZone.offsetY = bounds.y;
-                currentZone.src = originals[i].src.toString();
+                currentZone.src = original.src.toString();
             }
             results.push(currentAtlas);
             // remove empty zones 
