@@ -1,6 +1,6 @@
 {
   "name": "@thetinyspark/texture-packer",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "A cli texture packer for your video games",
   "main": "dist/main.js",
   "types": "dist/index.d.ts",
