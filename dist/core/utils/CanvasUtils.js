@@ -15,6 +15,13 @@ var CanvasUtils = /** @class */ (function () {
         canvas.height = height;
         return canvas;
     };
+    CanvasUtils.copyImg = function (canvas, img) {
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        var context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
     CanvasUtils.createFromImage = function (img) {
         var canvas = CanvasUtils.create(img.naturalWidth, img.naturalHeight);
         var context = canvas.getContext("2d");
@@ -49,9 +56,18 @@ var CanvasUtils = /** @class */ (function () {
         context.restore();
     };
     CanvasUtils.getCanvasPixels = function (canvas) {
-        var offscreen = CanvasUtils.create(canvas.width, canvas.height);
-        offscreen.getContext("2d").drawImage(canvas, 0, 0);
-        return offscreen.getContext("2d").getImageData(0, 0, offscreen.width, offscreen.height).data;
+        // const offscreen = CanvasUtils.create(canvas.width, canvas.height); 
+        // offscreen.getContext("2d").drawImage(canvas, 0, 0); 
+        // return offscreen.getContext("2d").getImageData(0,0,offscreen.width, offscreen.height).data;
+        var context = canvas.getContext("2d");
+        return context.getImageData(0, 0, canvas.width, canvas.height).data;
+    };
+    CanvasUtils.pixelsToAlphaMap = function (pixels) {
+        var result = [];
+        for (var i = 0; i < pixels.length; i += 4) {
+            result.push(pixels[i + 3]);
+        }
+        return result;
     };
     CanvasUtils.pixelsToRGBA = function (pixels) {
         var result = [];

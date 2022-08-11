@@ -2,6 +2,7 @@ import { IModel, Proxy } from "@thetinyspark/coffe-maker";
 import { Image } from "canvas";
 import AppModel from "../state/AppModel";
 import { Atlas } from "../vo/Atlas";
+import { ImageInfo } from "../vo/ImageInfo";
 import IAppProxy from "./IAppProxy";
 
 export default class AppProxy extends Proxy implements IAppProxy{
@@ -11,6 +12,15 @@ export default class AppProxy extends Proxy implements IAppProxy{
     constructor(){
         super();
         this._model = new AppModel();
+    }
+
+    setImagesInfo(imageInfos:ImageInfo[]):void{
+        this._model.setState({imageInfos});
+    }
+    
+    getImagesInfo():ImageInfo[]{
+        const state = this._model.getState(); 
+        return state.imageInfos;
     }
 
     setAtlases(atlases: Atlas[]): void {

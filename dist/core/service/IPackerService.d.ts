@@ -1,5 +1,5 @@
-import { Image } from "canvas";
 import { Atlas } from "../model/vo/Atlas";
+import { ImageInfo } from "../model/vo/ImageInfo";
 export default interface IPackerService {
-    pack(images: Image[], width: number, height: number, optimize: boolean): Atlas[];
+    pack(infos: ImageInfo[], width: number, height: number): Atlas[];
 }

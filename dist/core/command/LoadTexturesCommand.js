@@ -40,6 +40,8 @@ var canvas_1 = require("canvas");
 var app_constants_1 = require("../config/app.constants");
 var facade_1 = require("../config/facade");
 var ioc_1 = require("../config/ioc");
+var ImageInfo_1 = require("../model/vo/ImageInfo");
+var LoadingBar_1 = require("../view/LoadingBar");
 var LoadTextureCommand = /** @class */ (function () {
     function LoadTextureCommand() {
     }
@@ -47,33 +49,62 @@ var LoadTextureCommand = /** @class */ (function () {
         var proxy = facade_1.facade.getProxy(app_constants_1.APPLICATION_PROXY_TOKEN);
         var sourceDir = proxy.getSourceDir();
         var service = ioc_1.container.resolve(app_constants_1.FILE_SERVICE_TOKEN);
+        var service2 = ioc_1.container.resolve(app_constants_1.USER_ARGS_SERVICE);
+        var optimize = parseInt(service2.getUserArg('optimize')) === 1;
         if (!service.fileExists(sourceDir)) {
             console.log("non existing source dir:", sourceDir);
             return;
         }
         var images = service.getImagesInDir(sourceDir);
-        this._loadAndStore(images, proxy);
+        this._loadAndStore(images, proxy, optimize).then(function () {
+            facade_1.facade.sendNotification(app_constants_1.REMOVE_BIG_IMAGES);
+        });
     };
-    LoadTextureCommand.prototype._loadAndStore = function (paths, proxy) {
+    LoadTextureCommand.prototype._loadAndStore = function (paths, proxy, optimize) {
+        if (optimize === void 0) { optimize = true; }
         return __awaiter(this, void 0, void 0, function () {
-            var images;
+            var bar, infos;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._load(paths)];
+                    case 0:
+                        bar = new LoadingBar_1.default();
+                        bar.start();
+                        return [4 /*yield*/, new Promise(function (resolve, reject) {
+                                var infos = [];
+                                var counter = 0;
+                                var max = paths.length;
+                                var img = null;
+                                var loadNext = function () { return __awaiter(_this, void 0, void 0, function () {
+                                    var percent;
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0:
+                                                if (paths.length === 0) {
+                                                    resolve(infos);
+                                                    return [2 /*return*/];
+                                                }
+                                                return [4 /*yield*/, (0, canvas_1.loadImage)(paths.shift())];
+                                            case 1:
+                                                img = _a.sent();
+                                                infos.push(new ImageInfo_1.ImageInfo(img, optimize));
+                                                counter++;
+                                                percent = counter / max * 100;
+                                                bar.progress(percent);
+                                                loadNext();
+                                                return [2 /*return*/];
+                                        }
+                                    });
+                                }); };
+                                loadNext();
+                            })];
                     case 1:
-                        images = _a.sent();
-                        proxy.setTextures(images);
-                        facade_1.facade.sendNotification(app_constants_1.REMOVE_BIG_IMAGES);
+                        infos = _a.sent();
+                        proxy.setImagesInfo(infos);
                         return [2 /*return*/];
                 }
             });
         });
-    };
-    LoadTextureCommand.prototype._load = function (paths) {
-        var promises = paths.map(function (path) {
-            return (0, canvas_1.loadImage)(path);
-        });
-        return Promise.all(promises);
     };
     return LoadTextureCommand;
 }());

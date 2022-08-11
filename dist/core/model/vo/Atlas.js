@@ -11,19 +11,14 @@ var Atlas = /** @class */ (function () {
                 y: 0,
                 width: width,
                 height: height,
-                img: null,
-                offsetX: 0,
-                offsetY: 0,
-                originalWidth: 0,
-                originalHeight: 0,
-                src: ""
+                imgInfo: null
             }
         ];
     }
     Atlas.prototype.splitZone = function (zone) {
-        var zoneA = { x: 0, y: 0, width: 0, height: 0, img: null, offsetX: 0, offsetY: 0, originalWidth: 0, originalHeight: 0, src: "" };
-        var zoneB = { x: 0, y: 0, width: 0, height: 0, img: null, offsetX: 0, offsetY: 0, originalWidth: 0, originalHeight: 0, src: "" };
-        var img = zone.img;
+        var zoneA = { x: 0, y: 0, width: 0, height: 0, imgInfo: null };
+        var zoneB = { x: 0, y: 0, width: 0, height: 0, imgInfo: null };
+        var img = zone.imgInfo;
         if (img.width > img.height) {
             zoneA.x = zone.x + img.width;
             zoneA.y = zone.y;
@@ -59,7 +54,7 @@ var Atlas = /** @class */ (function () {
         var i = 0;
         // then we loop other the zones array in order to grab the most accruate one
         for (; i < this.zones.length; i++) {
-            if (width <= this.zones[i].width && height <= this.zones[i].height && this.zones[i].img == null) {
+            if (width <= this.zones[i].width && height <= this.zones[i].height && this.zones[i].imgInfo == null) {
                 return this.zones[i];
             }
         }
@@ -67,17 +62,12 @@ var Atlas = /** @class */ (function () {
     };
     Atlas.prototype.removeEmptyZones = function () {
         var i = this.zones.length;
-        var empty = this.zones.filter(function (zone) { return zone.img === null; });
+        var empty = this.zones.filter(function (zone) { return zone.imgInfo === null; });
         while (empty.length > 0) {
             var cur = empty.shift();
             var pos = this.zones.indexOf(cur);
             this.zones.splice(pos, 1);
         }
-        // while( --i > -1 ){
-        //     if( this.zones[i].img == null ){
-        //         this.zones.splice(i, 1);
-        //     }
-        // }
     };
     Atlas.prototype.sortZones = function (a, b) {
         var area1 = a.width * a.height;
@@ -89,20 +79,17 @@ var Atlas = /** @class */ (function () {
             width: atlas.width,
             height: atlas.height,
             zones: atlas.zones.map(function (zone) {
-                var filename = zone.src.toString();
-                filename = filename.substr(filename.lastIndexOf("/") + 1);
-                filename = filename.substr(filename.lastIndexOf("\\") + 1);
                 return {
                     x: zone.x,
                     y: zone.y,
-                    offsetX: zone.offsetX,
-                    offsetY: zone.offsetY,
-                    originalWidth: zone.originalWidth,
-                    originalHeight: zone.originalHeight,
+                    offsetX: zone.imgInfo.offsetX,
+                    offsetY: zone.imgInfo.offsetY,
+                    originalWidth: zone.imgInfo.originalWidth,
+                    originalHeight: zone.imgInfo.originalHeight,
                     width: zone.width,
                     height: zone.height,
-                    id: filename.substr(0, filename.lastIndexOf(".")),
-                    img: filename,
+                    id: zone.imgInfo.id,
+                    img: zone.imgInfo.id,
                 };
             })
         };
