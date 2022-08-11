@@ -12,6 +12,14 @@ import { Canvas, createCanvas, Image, loadImage } from "canvas";
         return canvas;
     }
 
+    public static copyImg(canvas:Canvas, img:Image):void{
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const context = canvas.getContext("2d"); 
+        context.clearRect(0,0,canvas.width,canvas.height); 
+        context.drawImage(img,0,0, canvas.width, canvas.height);
+    }
+
     public static createFromImage(img:Image):Canvas{
         const canvas = CanvasUtils.create(img.naturalWidth, img.naturalHeight);
         const context = canvas.getContext("2d");
@@ -50,9 +58,19 @@ import { Canvas, createCanvas, Image, loadImage } from "canvas";
     }
 
     public static getCanvasPixels(canvas:Canvas):Uint8ClampedArray{
-        const offscreen = CanvasUtils.create(canvas.width, canvas.height); 
-        offscreen.getContext("2d").drawImage(canvas, 0, 0); 
-        return offscreen.getContext("2d").getImageData(0,0,offscreen.width, offscreen.height).data;
+        // const offscreen = CanvasUtils.create(canvas.width, canvas.height); 
+        // offscreen.getContext("2d").drawImage(canvas, 0, 0); 
+        // return offscreen.getContext("2d").getImageData(0,0,offscreen.width, offscreen.height).data;
+        const context = canvas.getContext("2d");
+        return context.getImageData(0,0,canvas.width, canvas.height).data;
+    }
+
+    public static pixelsToAlphaMap(pixels:Uint8ClampedArray):number[]{
+        const result = [];
+        for( let i:number = 0; i < pixels.length; i+=4){
+            result.push(pixels[i+3]);
+        }
+        return result;
     }
 
     public static pixelsToRGBA(pixels:Uint8ClampedArray):{r:number,g:number,b:number,a:number}[]{

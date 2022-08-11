@@ -10,31 +10,41 @@ import IFileService from "../service/IFileService";
 import IUserArgsService from "../service/IUserArgsService";
 
 export default class ExportCommand implements ICommand{
+
+    private _atlases:Atlas[] = [];
+
     execute(notification: INotification): void {
         const proxy:IAppProxy = facade.getProxy(APPLICATION_PROXY_TOKEN) as IAppProxy; 
-        const outputDir = proxy.getOuputDir();
         const atlases = proxy.getAtlases();
-        const service:IFileService = container.resolve(FILE_SERVICE_TOKEN);
-        const drawer:IDrawService = container.resolve(DRAWING_SERVICE);
-        const service2:IUserArgsService = container.resolve(USER_ARGS_SERVICE);
-        const debug:boolean = parseInt(service2.getUserArg('debug')) === 1; 
+        this._atlases = atlases;
+        this.exportNext();
+    }
 
-        atlases.forEach( 
-            (currentAtlas:Atlas, index:number)=>{
-                const name:string = 'atlas_'+index; 
-                const jsonName = name+'.json';
-                const pngName = name+'.png';
+    async exportNext(){
+        if( this._atlases.length > 0 ){
+            const proxy:IAppProxy = facade.getProxy(APPLICATION_PROXY_TOKEN) as IAppProxy; 
+            const outputDir = proxy.getOuputDir();
+            const service:IFileService = container.resolve(FILE_SERVICE_TOKEN);
+            const service2:IUserArgsService = container.resolve(USER_ARGS_SERVICE);
+            const debug:boolean = parseInt(service2.getUserArg('debug')) === 1; 
+            const drawer:IDrawService = container.resolve(DRAWING_SERVICE);
+            const currentAtlas = this._atlases.shift();
+            const scene = await drawer.drawAtlas(currentAtlas, debug);
+            const name:string = 'atlas_'+this._atlases.length; 
+            const jsonName = name+'.json';
+            const pngName = name+'.png';
 
-                service.writeJSON(
-                    Atlas.toJSON(currentAtlas), 
-                    outputDir+'/'+jsonName
-                );
+            service.writeJSON(
+                Atlas.toJSON(currentAtlas), 
+                outputDir+'/'+jsonName
+            );
 
-                service.writeImage(
-                    drawer.drawAtlas(currentAtlas, debug),
-                    outputDir+'/'+pngName
-                );
-            }
-        );
+            service.writeImage(
+                scene,
+                outputDir+'/'+pngName
+            );
+
+            this.exportNext();
+        }
     }
 }

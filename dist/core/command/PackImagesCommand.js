@@ -9,11 +9,9 @@ var PackImagesCommand = /** @class */ (function () {
     PackImagesCommand.prototype.execute = function (notification) {
         var packerService = ioc_1.container.resolve(app_constants_1.PACKER_SERVICE);
         var appProxy = facade_1.facade.getProxy(app_constants_1.APPLICATION_PROXY_TOKEN);
-        var service = ioc_1.container.resolve(app_constants_1.USER_ARGS_SERVICE);
-        var optimize = parseInt(service.getUserArg('optimize')) === 1;
-        var textures = appProxy.getTextures();
+        var infos = appProxy.getImagesInfo();
         var size = appProxy.getAtlasSize();
-        var atlases = packerService.pack(textures, size, size, optimize);
+        var atlases = packerService.pack(infos, size, size);
         appProxy.setAtlases(atlases);
         facade_1.facade.sendNotification(app_constants_1.EXPORT_COMMAND);
     };
