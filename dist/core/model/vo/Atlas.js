@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Atlas = void 0;
-var Atlas = /** @class */ (function () {
-    function Atlas(width, height) {
+class Atlas {
+    constructor(width, height) {
         this.width = width;
         this.height = height;
         this.zones = [
@@ -15,10 +15,10 @@ var Atlas = /** @class */ (function () {
             }
         ];
     }
-    Atlas.prototype.splitZone = function (zone) {
-        var zoneA = { x: 0, y: 0, width: 0, height: 0, imgInfo: null };
-        var zoneB = { x: 0, y: 0, width: 0, height: 0, imgInfo: null };
-        var img = zone.imgInfo;
+    splitZone(zone) {
+        let zoneA = { x: 0, y: 0, width: 0, height: 0, imgInfo: null };
+        let zoneB = { x: 0, y: 0, width: 0, height: 0, imgInfo: null };
+        let img = zone.imgInfo;
         if (img.width > img.height) {
             zoneA.x = zone.x + img.width;
             zoneA.y = zone.y;
@@ -45,13 +45,11 @@ var Atlas = /** @class */ (function () {
             this.zones.push(zoneB);
         zone.width = img.width;
         zone.height = img.height;
-    };
-    Atlas.prototype.getZone = function (width, height) {
-        if (width === void 0) { width = 0; }
-        if (height === void 0) { height = 0; }
+    }
+    getZone(width = 0, height = 0) {
         // we sort the zones 
         this.zones = this.zones.sort(this.sortZones);
-        var i = 0;
+        let i = 0;
         // then we loop other the zones array in order to grab the most accruate one
         for (; i < this.zones.length; i++) {
             if (width <= this.zones[i].width && height <= this.zones[i].height && this.zones[i].imgInfo == null) {
@@ -59,26 +57,26 @@ var Atlas = /** @class */ (function () {
             }
         }
         return null;
-    };
-    Atlas.prototype.removeEmptyZones = function () {
-        var i = this.zones.length;
-        var empty = this.zones.filter(function (zone) { return zone.imgInfo === null; });
+    }
+    removeEmptyZones() {
+        let i = this.zones.length;
+        const empty = this.zones.filter(zone => zone.imgInfo === null);
         while (empty.length > 0) {
-            var cur = empty.shift();
-            var pos = this.zones.indexOf(cur);
+            const cur = empty.shift();
+            const pos = this.zones.indexOf(cur);
             this.zones.splice(pos, 1);
         }
-    };
-    Atlas.prototype.sortZones = function (a, b) {
-        var area1 = a.width * a.height;
-        var area2 = b.width * b.height;
+    }
+    sortZones(a, b) {
+        let area1 = a.width * a.height;
+        let area2 = b.width * b.height;
         return (area1 < area2) ? -1 : 1;
-    };
-    Atlas.toJSON = function (atlas) {
-        var output = {
+    }
+    static toJSON(atlas) {
+        const output = {
             width: atlas.width,
             height: atlas.height,
-            zones: atlas.zones.map(function (zone) {
+            zones: atlas.zones.map((zone) => {
                 return {
                     x: zone.x,
                     y: zone.y,
@@ -94,7 +92,6 @@ var Atlas = /** @class */ (function () {
             })
         };
         return JSON.stringify(output);
-    };
-    return Atlas;
-}());
+    }
+}
 exports.Atlas = Atlas;

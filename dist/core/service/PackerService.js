@@ -1,21 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PackerService = void 0;
-var Atlas_1 = require("../model/vo/Atlas");
-var PackerService = /** @class */ (function () {
-    function PackerService() {
-    }
-    PackerService.prototype.sortImagesInfosByAreaAsc = function (a, b) {
+const Atlas_1 = require("../model/vo/Atlas");
+class PackerService {
+    constructor() { }
+    sortImagesInfosByAreaAsc(a, b) {
         return (a.area > b.area) ? -1 : 1;
-    };
-    PackerService.prototype.pack = function (infos, width, height) {
-        if (width === void 0) { width = 0; }
-        if (height === void 0) { height = 0; }
-        var results = [];
-        var currentZone = null;
-        var currentImgInfo = null;
-        var currentAtlas = null;
-        var i = 0;
+    }
+    pack(infos, width = 0, height = 0) {
+        let results = [];
+        let currentZone = null;
+        let currentImgInfo = null;
+        let currentAtlas = null;
+        let i = 0;
         //while there's images into the images array
         while (infos.length > 0) {
             // we sort the infos
@@ -44,7 +41,6 @@ var PackerService = /** @class */ (function () {
             }
         }
         return results;
-    };
-    return PackerService;
-}());
+    }
+}
 exports.PackerService = PackerService;

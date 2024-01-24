@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.facade = void 0;
-var coffe_maker_1 = require("@thetinyspark/coffe-maker");
-var app_constants_1 = require("./app.constants");
-var ioc_1 = require("./ioc");
+const coffe_maker_1 = require("@thetinyspark/coffe-maker");
+const app_constants_1 = require("./app.constants");
+const ioc_1 = require("./ioc");
 exports.facade = new coffe_maker_1.Facade();
 exports.facade.registerCommand(app_constants_1.START_APPLICATION, ioc_1.container.get(app_constants_1.START_APPLICATION));
 exports.facade.registerCommand(app_constants_1.PARSE_USER_ARGS, ioc_1.container.get(app_constants_1.PARSE_USER_ARGS));

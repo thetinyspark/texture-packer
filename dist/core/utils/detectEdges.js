@@ -1,17 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var CanvasUtils_1 = require("./CanvasUtils");
-function detectEdges(png, limit) {
-    if (limit === void 0) { limit = 1; }
-    var pixels = CanvasUtils_1.default.getCanvasPixels(png);
-    var left = Infinity;
-    var right = -Infinity;
-    var top = Infinity;
-    var bottom = -Infinity;
-    var pos = 0;
-    for (var i = 3; i < pixels.length; i += 4) {
-        var row = (pos / png.width) >> 0;
-        var col = pos % png.width;
+const CanvasUtils_1 = require("./CanvasUtils");
+function detectEdges(png, limit = 1) {
+    const pixels = CanvasUtils_1.default.getCanvasPixels(png);
+    let left = Infinity;
+    let right = -Infinity;
+    let top = Infinity;
+    let bottom = -Infinity;
+    let pos = 0;
+    for (let i = 3; i < pixels.length; i += 4) {
+        const row = (pos / png.width) >> 0;
+        const col = pos % png.width;
         pos++;
         if (pixels[i] < limit)
             continue;

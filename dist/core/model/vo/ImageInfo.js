@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImageInfo = void 0;
-var CanvasUtils_1 = require("../../utils/CanvasUtils");
-var detectEdges_1 = require("../../utils/detectEdges");
-var ImageInfo = /** @class */ (function () {
-    function ImageInfo(img, optimize) {
-        if (optimize === void 0) { optimize = true; }
+const CanvasUtils_1 = require("../../utils/CanvasUtils");
+const detectEdges_1 = require("../../utils/detectEdges");
+class ImageInfo {
+    constructor(img, optimize = true) {
         this.id = "";
         this.src = "";
         this.area = 0;
@@ -15,8 +14,8 @@ var ImageInfo = /** @class */ (function () {
         this.originalHeight = 0;
         this.width = 0;
         this.height = 0;
-        var bounds = { x: 0, y: 0, width: img.naturalWidth, height: img.naturalHeight };
-        var filename = img.src.toString();
+        let bounds = { x: 0, y: 0, width: img.naturalWidth, height: img.naturalHeight };
+        let filename = img.src.toString();
         filename = filename.substring(filename.lastIndexOf("/") + 1);
         filename = filename.substring(filename.lastIndexOf("\\") + 1);
         filename = filename.substring(0, filename.lastIndexOf("."));
@@ -34,7 +33,6 @@ var ImageInfo = /** @class */ (function () {
         this.id = filename;
         this.area = this.width * this.height;
     }
-    ImageInfo._canvas = CanvasUtils_1.default.create(100, 100);
-    return ImageInfo;
-}());
+}
 exports.ImageInfo = ImageInfo;
+ImageInfo._canvas = CanvasUtils_1.default.create(100, 100);

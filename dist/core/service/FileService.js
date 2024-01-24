@@ -1,73 +1,66 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = require("fs");
-var path = require("path");
-var FileService = /** @class */ (function () {
-    function FileService() {
-    }
-    FileService.prototype.mkDir = function (path) {
+const fs = require("fs");
+const path = require("path");
+class FileService {
+    mkDir(path) {
         fs.mkdirSync(path, { recursive: true });
-    };
-    FileService.prototype.rmDir = function (path) {
-        var _this = this;
+    }
+    rmDir(path) {
         if (!this.fileExists(path))
             return;
-        var paths = this.readDir(path);
-        var files = this.keepOnlyFiles(paths);
-        var dirs = this.keepOnlyDirs(paths);
+        const paths = this.readDir(path);
+        const files = this.keepOnlyFiles(paths);
+        const dirs = this.keepOnlyDirs(paths);
         files.forEach(fs.unlinkSync);
-        dirs.forEach(function (value) {
-            _this.rmDir(value);
+        dirs.forEach((value) => {
+            this.rmDir(value);
         });
         fs.rmdirSync(path);
-    };
-    FileService.prototype.readDir = function (path, recursive, result) {
-        var _this = this;
-        if (recursive === void 0) { recursive = false; }
-        if (result === void 0) { result = []; }
-        var files = fs.readdirSync(path);
-        files.forEach(function (filename) {
-            var filepath = path + filename;
-            var stats = fs.statSync(filepath);
+    }
+    readDir(path, recursive = false, result = []) {
+        const files = fs.readdirSync(path);
+        files.forEach((filename) => {
+            const filepath = path + filename;
+            const stats = fs.statSync(filepath);
             if (stats.isDirectory()) {
-                _this.readDir(filepath + "/", recursive, result);
+                this.readDir(filepath + "/", recursive, result);
             }
             result.push(filepath);
         });
         return result;
-    };
-    FileService.prototype.getImagesInDir = function (directory) {
-        var extensions = ['.png', '.jpg', '.jpeg'];
-        var datas = this.readDir(directory, true);
-        var files = this.keepOnlyFiles(datas);
-        return files.filter(function (value) {
-            var ext = path.extname(value);
+    }
+    getImagesInDir(directory) {
+        const extensions = ['.png', '.jpg', '.jpeg'];
+        const datas = this.readDir(directory, true);
+        const files = this.keepOnlyFiles(datas);
+        return files.filter((value) => {
+            const ext = path.extname(value);
             return extensions.includes(ext);
         });
-    };
-    FileService.prototype.keepOnlyFiles = function (filepaths) {
-        return filepaths.filter(function (value) {
+    }
+    keepOnlyFiles(filepaths) {
+        return filepaths.filter((value) => {
             return fs.statSync(value).isFile();
         });
-    };
-    FileService.prototype.keepOnlyDirs = function (filepaths) {
-        return filepaths.filter(function (value) {
+    }
+    keepOnlyDirs(filepaths) {
+        return filepaths.filter((value) => {
             return fs.statSync(value).isDirectory();
         });
-    };
-    FileService.prototype.fileExists = function (filepath) {
+    }
+    fileExists(filepath) {
         return fs.existsSync(filepath);
-    };
-    FileService.prototype.writeJSON = function (data, filepath) {
+    }
+    writeJSON(data, filepath) {
         fs.writeFileSync(filepath, data);
-    };
-    FileService.prototype.writeImage = function (canvas, filepath) {
-        var buffer = canvas.toBuffer();
+    }
+    writeImage(canvas, filepath) {
+        const buffer = canvas.toBuffer();
         fs.writeFileSync(filepath, buffer);
-    };
-    FileService.prototype.removeFile = function (filepath) {
+    }
+    removeFile(filepath) {
         fs.unlinkSync(filepath);
-    };
-    return FileService;
-}());
+    }
+}
 exports.default = FileService;
